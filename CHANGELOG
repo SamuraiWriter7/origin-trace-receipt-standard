@@ -2,6 +2,72 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.5.0-candidate] - 2026-07-03
+
+### Added
+
+- Added Human Review Gate.
+- Added `human_review_gate` as a required top-level receipt layer.
+- Added `gate_id`.
+- Added Human Review Gate status values:
+  - draft
+  - open
+  - pending_review
+  - passed
+  - rejected
+  - blocked
+  - not_required
+- Added review triggers.
+- Added reviewer roles.
+- Added blocking conditions.
+- Added blocked downstream action types.
+- Added allowed actions after review.
+- Added rejected actions.
+- Added decision record.
+- Added decision status values:
+  - not_started
+  - pending
+  - approved
+  - approved_with_conditions
+  - rejected
+  - blocked
+- Added decision authority classification.
+- Added `human_review_gate` as an evidence target layer.
+- Added `audit.human_review_gate_status`.
+
+### Changed
+
+- Updated `schema_version` from `0.4.0` to `0.5.0`.
+- Updated the example receipt to demonstrate human review gating.
+- Updated audit semantics to include Human Review Gate status.
+- Updated boundary rules to prohibit bypassing the Human Review Gate for sensitive downstream actions.
+- Updated transformation diff records to describe the addition of the Human Review Gate.
+
+### Purpose
+
+v0.5 closes the first arc of the Origin Trace Receipt Standard.
+
+v0.1 made receipts recordable.  
+v0.2 made receipts evidence-bound.  
+v0.3 made receipts diff-aware.  
+v0.4 made receipts royalty-handoff-ready.  
+v0.5 makes receipts human-review-gated.
+
+This release ensures that sensitive downstream actions can be blocked until human review is complete.
+
+Sensitive downstream actions may include:
+
+- market registration
+- license publication
+- commercial use
+- AI training use
+- royalty execution
+- external settlement
+- public origin claims
+- agent auto-handoff
+
+---
+
 ## [v0.4.0-candidate] - 2026-07-03
 
 ### Added
@@ -61,6 +127,8 @@ v0.4 makes it royalty-handoff-ready.
 This release does not execute payment, determine ownership, or assign legal rights.  
 It preserves the structured information needed by downstream royalty, license, market, registry, or audit systems.
 
+---
+
 ## [v0.3.0-candidate] - 2026-07-03
 
 ### Added
@@ -114,6 +182,8 @@ v0.3 makes it diff-aware.
 
 The goal is not to automatically decide originality, ownership, or infringement.  
 The goal is to preserve a structured difference record that later audit, licensing, royalty, and market systems can inspect.
+
+---
 
 ## [v0.2.0-candidate] - 2026-07-03
 
@@ -170,6 +240,8 @@ v0.2 turns the receipt from a self-declared metadata record into an evidence-bou
 
 The goal is not to automatically prove ownership or originality.  
 The goal is to preserve the evidence links needed for later review by humans, agents, synchronization audit systems, origin markets, or royalty-aware protocols.
+
+---
 
 ## [v0.1.0-candidate] - 2026-07-02
 
