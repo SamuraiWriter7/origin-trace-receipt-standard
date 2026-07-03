@@ -1,0 +1,102 @@
+schema_version: "0.1.0"
+record_type: origin_trace_receipt
+receipt_id: otr_2026-07-02-trace-audit-origin-v0.1
+created_at: "2026-07-02T02:45:00Z"
+
+origin:
+  origin_id: origin_trace_receipt_core
+  title: Trace Receipt / Audit / Origin Bridge
+  origin_type: protocol
+  origin_summary: >-
+    A bridge record that preserves the origin of an AI-assisted output,
+    the traces it used, the transformation performed, audit status,
+    and downstream royalty or market handoff information.
+  creator_reference: Kazene / SamuraiWriter7
+  repository: https://github.com/SamuraiWriter7/origin-trace-receipt-standard
+  license_policy_id: attribution_required_v0.1
+
+trace:
+  trace_id: trace_initial_design
+  source_interactions:
+    - source_id: source_user_dialogue
+      source_type: conversation
+      reference: "Design discussion about Trace Receipt, Synchronization Audit, and Origin Structure Market"
+      role: primary
+      contribution_weight: 0.7
+      interaction_summary: >-
+        The dialogue identified trace, audit, origin, royalty, memory,
+        and orchestration as the central layers of an AI civilization OS.
+
+    - source_id: source_existing_repos
+      source_type: repository
+      reference: "AI Search Trace Receipt Standard / Synchronization Audit Protocol / Origin Structure Market"
+      role: supporting
+      contribution_weight: 0.3
+      interaction_summary: >-
+        Existing repository concepts were used as upstream protocol references
+        rather than replaced by this bridge record.
+
+transformation:
+  transformation_type: specification
+  input_summary: >-
+    Multiple related GitHub specification ideas existed separately across
+    trace, synchronization audit, origin market, and royalty layers.
+  output_summary: >-
+    The ideas were condensed into a minimal bridge receipt that can hand off
+    to existing specialized protocols.
+  preserved_elements:
+    - origin preservation
+    - source interaction trace
+    - transformation summary
+    - synchronization audit
+    - royalty handoff
+  changed_elements:
+    - unified record boundary
+    - explicit protocol handoff layer
+    - minimal v0.1 validation target
+
+audit:
+  synchronization_risk: low
+  originality_assessment: mixed
+  evidence_level: self_declared
+  human_review_required: true
+  audit_notes: >-
+    This v0.1 record is a bridge specification derived from prior internal
+    protocol work and should be reviewed before external standardization.
+
+royalty_hook:
+  enabled: true
+  policy_id: royalty_os_bridge_v0.1
+  allocation:
+    - recipient: originator
+      role: originator
+      share_percent: 90
+    - recipient: maintenance_fund
+      role: fund
+      share_percent: 10
+
+boundary:
+  usage_policy: attribution_required
+  prohibited_uses:
+    - false attribution of origin
+    - removal of trace or audit metadata
+  consent_notes: >-
+    Reuse is permitted when attribution, trace preservation, and audit handoff
+    are maintained.
+
+handoff:
+  next_protocols:
+    - ai-search-trace-receipt-standard
+    - synchronization-audit-protocol
+    - origin-structure-market
+    - origin-license-policy-registry
+  related_records:
+    - ai_search_trace_receipt_v0.5
+    - sync_audit_protocol_v0.5
+    - origin_structure_market_v0.5
+  handoff_notes: >-
+    Specialized protocols should handle detailed search traces, similarity
+    audits, market listings, and license policies.
+
+validation:
+  validation_status: draft
