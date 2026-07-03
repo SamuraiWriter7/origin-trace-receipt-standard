@@ -2,6 +2,62 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.2.0-candidate] - 2026-07-03
+
+### Added
+
+- Added Evidence Binding Layer.
+- Added `evidence_set_id` for grouping evidence bindings.
+- Added `binding_strategy` to describe how evidence is connected to the receipt.
+- Added `evidence_bindings` for linking claims to reviewable evidence.
+- Added target-layer binding support for:
+  - origin
+  - trace
+  - transformation
+  - audit
+  - royalty_hook
+  - boundary
+  - handoff
+  - validation
+  - whole_receipt
+- Added evidence types for:
+  - conversation excerpts
+  - file references
+  - repository commits
+  - repository URLs
+  - web URLs
+  - document hashes
+  - model outputs
+  - manual attestations
+  - external receipts
+  - timestamps
+  - signatures
+- Added verification status values:
+  - unverified
+  - self_attested
+  - trace_supported
+  - hash_verified
+  - externally_verified
+  - rejected
+- Added confidence scoring for evidence bindings.
+- Added optional hash metadata.
+- Added optional redaction and privacy notes.
+- Added optional cross-check records.
+- Updated audit layer with `evidence_bound`.
+
+### Changed
+
+- Updated `schema_version` from `0.1.0` to `0.2.0`.
+- Updated the example receipt to demonstrate evidence-bound origin, trace, and schema references.
+- Updated audit semantics so a receipt can distinguish between self-declared, trace-supported, evidence-bound, and externally verified states.
+
+### Purpose
+
+v0.2 turns the receipt from a self-declared metadata record into an evidence-bound audit object.
+
+The goal is not to automatically prove ownership or originality.  
+The goal is to preserve the evidence links needed for later review by humans, agents, synchronization audit systems, origin markets, or royalty-aware protocols.
+
 ## [v0.1.0-candidate] - 2026-07-02
 
 ### Added
