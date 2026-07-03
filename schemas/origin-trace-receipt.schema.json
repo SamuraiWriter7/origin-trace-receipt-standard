@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.org/schemas/origin-trace-receipt.schema.json",
   "title": "Origin Trace Receipt",
-  "description": "A record for preserving origin, trace, transformation, evidence binding, transformation diff, audit, and royalty handoff information for AI-assisted outputs.",
+  "description": "A record for preserving origin, trace, transformation, evidence binding, transformation diff, audit, royalty handoff, and downstream protocol handoff information for AI-assisted outputs.",
   "type": "object",
   "required": [
     "schema_version",
@@ -15,6 +15,7 @@
     "evidence",
     "transformation_diff",
     "audit",
+    "royalty_handoff",
     "boundary",
     "handoff"
   ],
@@ -22,7 +23,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "0.3.0"
+      "const": "0.4.0"
     },
     "record_type": {
       "type": "string",
@@ -255,6 +256,7 @@
                   "transformation_diff",
                   "audit",
                   "royalty_hook",
+                  "royalty_handoff",
                   "boundary",
                   "handoff",
                   "validation",
@@ -558,6 +560,7 @@
         "evidence_level",
         "evidence_bound",
         "transformation_diff_bound",
+        "royalty_handoff_ready",
         "human_review_required"
       ],
       "additionalProperties": false,
@@ -594,6 +597,9 @@
           "type": "boolean"
         },
         "transformation_diff_bound": {
+          "type": "boolean"
+        },
+        "royalty_handoff_ready": {
           "type": "boolean"
         },
         "human_review_required": {
@@ -649,6 +655,322 @@
               }
             }
           }
+        }
+      }
+    },
+    "royalty_handoff": {
+      "type": "object",
+      "required": [
+        "handoff_id",
+        "handoff_status",
+        "handoff_targets",
+        "allocation_basis",
+        "license_handoff",
+        "review_requirements",
+        "settlement_intent",
+        "handoff_summary"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "handoff_id": {
+          "type": "string",
+          "pattern": "^royalty_handoff_[A-Za-z0-9._-]+$"
+        },
+        "handoff_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "ready_for_review",
+            "ready_for_registration",
+            "registered",
+            "blocked",
+            "not_applicable"
+          ]
+        },
+        "handoff_targets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "target_id",
+              "target_protocol",
+              "target_purpose",
+              "required_inputs",
+              "missing_inputs",
+              "handoff_readiness"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "target_id": {
+                "type": "string",
+                "pattern": "^target_[A-Za-z0-9._-]+$"
+              },
+              "target_protocol": {
+                "type": "string",
+                "enum": [
+                  "royalty-os",
+                  "compute-access-royalty-os",
+                  "origin-structure-market",
+                  "origin-license-policy-registry",
+                  "okf-royalty-os-bridge",
+                  "external_marketplace",
+                  "external_registry",
+                  "other"
+                ]
+              },
+              "target_reference": {
+                "type": "string"
+              },
+              "target_purpose": {
+                "type": "string",
+                "enum": [
+                  "attribution",
+                  "licensing",
+                  "royalty_allocation",
+                  "market_registration",
+                  "compute_access",
+                  "dispute_review",
+                  "archival",
+                  "other"
+                ]
+              },
+              "required_inputs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "origin",
+                    "trace",
+                    "evidence",
+                    "transformation_diff",
+                    "royalty_hook",
+                    "license_policy",
+                    "human_review",
+                    "recipient_identity",
+                    "external_contract",
+                    "other"
+                  ]
+                }
+              },
+              "missing_inputs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "handoff_readiness": {
+                "type": "string",
+                "enum": [
+                  "ready",
+                  "partial",
+                  "blocked",
+                  "not_applicable"
+                ]
+              },
+              "target_notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "allocation_basis": {
+          "type": "object",
+          "required": [
+            "basis_type",
+            "source_layers",
+            "calculation_method",
+            "allocation_notes"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "basis_type": {
+              "type": "string",
+              "enum": [
+                "origin_only",
+                "contribution_weight",
+                "diff_weighted",
+                "evidence_weighted",
+                "human_review",
+                "external_policy",
+                "mixed"
+              ]
+            },
+            "source_layers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "origin",
+                  "trace",
+                  "evidence",
+                  "transformation_diff",
+                  "royalty_hook",
+                  "boundary",
+                  "other"
+                ]
+              }
+            },
+            "calculation_method": {
+              "type": "string",
+              "enum": [
+                "none",
+                "fixed_split",
+                "proportional_weight",
+                "manual_review",
+                "policy_reference",
+                "external_engine",
+                "mixed"
+              ]
+            },
+            "allocation_notes": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "license_handoff": {
+          "type": "object",
+          "required": [
+            "license_policy_id",
+            "usage_scope",
+            "attribution_required",
+            "commercial_status",
+            "training_status",
+            "license_notes"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "license_policy_id": {
+              "type": "string"
+            },
+            "usage_scope": {
+              "type": "string",
+              "enum": [
+                "open",
+                "limited",
+                "private",
+                "internal",
+                "custom"
+              ]
+            },
+            "attribution_required": {
+              "type": "boolean"
+            },
+            "commercial_status": {
+              "type": "string",
+              "enum": [
+                "allowed",
+                "restricted",
+                "prohibited",
+                "unknown"
+              ]
+            },
+            "training_status": {
+              "type": "string",
+              "enum": [
+                "allowed",
+                "restricted",
+                "prohibited",
+                "unknown"
+              ]
+            },
+            "license_notes": {
+              "type": "string"
+            }
+          }
+        },
+        "review_requirements": {
+          "type": "object",
+          "required": [
+            "human_review_required",
+            "review_triggers"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "human_review_required": {
+              "type": "boolean"
+            },
+            "reviewer_role": {
+              "type": "string",
+              "enum": [
+                "originator",
+                "maintainer",
+                "auditor",
+                "legal_reviewer",
+                "market_operator",
+                "other"
+              ]
+            },
+            "review_triggers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "high_sync_risk",
+                  "low_evidence_confidence",
+                  "high_derivation",
+                  "missing_license_policy",
+                  "missing_recipient",
+                  "conflicting_claims",
+                  "custom_policy",
+                  "other"
+                ]
+              }
+            },
+            "review_notes": {
+              "type": "string"
+            }
+          }
+        },
+        "settlement_intent": {
+          "type": "object",
+          "required": [
+            "enabled",
+            "execution_mode",
+            "settlement_type",
+            "settlement_notes"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "execution_mode": {
+              "type": "string",
+              "enum": [
+                "record_only",
+                "review_required",
+                "external_system"
+              ]
+            },
+            "settlement_type": {
+              "type": "string",
+              "enum": [
+                "none",
+                "attribution_only",
+                "royalty_split",
+                "compute_credit",
+                "marketplace_listing",
+                "external_contract",
+                "other"
+              ]
+            },
+            "currency": {
+              "type": "string"
+            },
+            "unit": {
+              "type": "string"
+            },
+            "settlement_notes": {
+              "type": "string"
+            }
+          }
+        },
+        "handoff_summary": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },
