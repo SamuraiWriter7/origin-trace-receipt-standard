@@ -134,6 +134,40 @@ Examples:
 - trace-relay-protocol
 - multi-wing-orchestration-generator
 
+### 4. Evidence Binding Layer
+
+The Evidence Binding Layer connects receipt claims to reviewable evidence.
+
+It does not decide ownership, authorship, or originality automatically.  
+Instead, it records which evidence supports each layer of the receipt.
+
+Evidence may include:
+
+- conversation excerpts
+- file references
+- repository URLs
+- repository commits
+- document hashes
+- external receipts
+- timestamps
+- signatures
+- manual attestations
+- model outputs
+
+Each evidence binding can target a specific receipt layer:
+
+- origin
+- trace
+- transformation
+- audit
+- royalty_hook
+- boundary
+- handoff
+- validation
+- whole_receipt
+
+This makes the receipt auditable without forcing all downstream systems to use the same evidence format.
+
 ## Minimal Example
 
 ```yaml
