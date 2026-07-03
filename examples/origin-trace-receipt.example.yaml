@@ -1,33 +1,33 @@
-schema_version: "0.4.0"
+schema_version: "0.5.0"
 record_type: origin_trace_receipt
-receipt_id: otr_2026-07-03-royalty-handoff-v0.4
-created_at: "2026-07-03T00:42:00Z"
+receipt_id: otr_2026-07-03-human-review-gate-v0.5
+created_at: "2026-07-03T01:00:00Z"
 
 origin:
   origin_id: origin_trace_receipt_core
-  title: Trace Receipt / Audit / Origin / Royalty Bridge
+  title: Trace Receipt / Audit / Origin / Royalty / Human Review Bridge
   origin_type: protocol
   origin_summary: >-
     A bridge record that preserves the origin of an AI-assisted output,
     the traces it used, the transformation performed, audit status,
     evidence bindings, transformation diffs, royalty handoff information,
-    and downstream market or license routing.
+    human review gate status, and downstream market or license routing.
   creator_reference: Kazene / SamuraiWriter7
   repository: https://github.com/SamuraiWriter7/origin-trace-receipt-standard
-  license_policy_id: attribution_required_v0.4
+  license_policy_id: attribution_required_v0.5
 
 trace:
   trace_id: trace_initial_design
   source_interactions:
     - source_id: source_user_dialogue
       source_type: conversation
-      reference: "Design discussion about Trace Receipt, Evidence Binding, Transformation Diff, and Royalty Handoff"
+      reference: "Design discussion about Trace Receipt, Evidence Binding, Transformation Diff, Royalty Handoff, and Human Review Gate"
       role: primary
       contribution_weight: 0.7
       interaction_summary: >-
         The dialogue identified trace, audit, origin, royalty, memory,
-        orchestration, evidence binding, transformation diff, and royalty
-        handoff as central layers of an AI civilization OS.
+        orchestration, evidence binding, transformation diff, royalty handoff,
+        and human review as central layers of an AI civilization OS.
 
     - source_id: source_existing_repos
       source_type: repository
@@ -41,14 +41,15 @@ trace:
 transformation:
   transformation_type: specification
   input_summary: >-
-    The v0.3 receipt preserved origin, trace, transformation, evidence,
-    transformation diff, audit, royalty hook, boundary, and handoff metadata,
-    but did not provide a dedicated routing layer for royalty, license, and
-    market systems.
+    The v0.4 receipt preserved origin, trace, transformation, evidence,
+    transformation diff, audit, royalty hook, royalty handoff, boundary,
+    and handoff metadata, but did not provide a dedicated human review gate
+    for blocking sensitive downstream actions.
   output_summary: >-
-    The v0.4 receipt adds a Royalty Handoff Layer that records which downstream
-    royalty, license, market, compute access, or registry protocols should
-    receive the receipt, and under what review conditions.
+    The v0.5 receipt adds a Human Review Gate that can block market
+    registration, license publication, commercial use, AI training use,
+    royalty execution, external settlement, public origin claims, or agent
+    auto-handoff until human review is complete.
   preserved_elements:
     - origin preservation
     - source interaction trace
@@ -56,26 +57,28 @@ transformation:
     - transformation diff
     - synchronization audit
     - royalty hook
+    - royalty handoff
     - protocol handoff
   changed_elements:
-    - added royalty handoff layer
-    - added royalty handoff targets
-    - added allocation basis
-    - added license handoff
-    - added review requirements
-    - added settlement intent
-    - added audit royalty handoff readiness
+    - added human review gate
+    - added review triggers
+    - added reviewer roles
+    - added blocking conditions
+    - added allowed actions after review
+    - added rejected actions
+    - added decision record
+    - added audit human review gate status
 
 evidence:
-  evidence_set_id: evidence_origin_trace_receipt_v0.4
+  evidence_set_id: evidence_origin_trace_receipt_v0.5
   binding_strategy: mixed
   evidence_bindings:
     - binding_id: binding_origin_dialogue
       target_layer: origin
       evidence_type: conversation_excerpt
       reference_type: local_reference
-      reference: "User-AI design dialogue initiating Origin Trace Receipt Standard and Royalty Handoff Layer"
-      captured_at: "2026-07-03T00:42:22Z"
+      reference: "User-AI design dialogue initiating Origin Trace Receipt Standard and Human Review Gate"
+      captured_at: "2026-07-03T01:00:16Z"
       verification_status: self_attested
       confidence: 0.8
       immutable: false
@@ -85,15 +88,15 @@ evidence:
         be exposed directly in public records.
       evidence_summary: >-
         Supports the claim that the protocol originated from a design dialogue
-        connecting trace, audit, origin, royalty, evidence, diff, and handoff
-        systems.
+        connecting trace, audit, origin, royalty, evidence, diff, handoff,
+        and human review systems.
 
     - binding_id: binding_existing_protocol_refs
       target_layer: trace
       evidence_type: repository_url
       reference_type: url
       reference: "https://github.com/SamuraiWriter7"
-      captured_at: "2026-07-03T00:42:00Z"
+      captured_at: "2026-07-03T01:00:00Z"
       verification_status: trace_supported
       confidence: 0.7
       immutable: false
@@ -140,108 +143,123 @@ evidence:
         Binds the Royalty Handoff Layer to the schema section that defines
         downstream royalty, license, market, and review routing.
 
+    - binding_id: binding_human_review_gate_schema
+      target_layer: human_review_gate
+      evidence_type: file_reference
+      reference_type: file_path
+      reference: "schemas/origin-trace-receipt.schema.json#/properties/human_review_gate"
+      verification_status: trace_supported
+      confidence: 0.9
+      immutable: false
+      redaction_status: none
+      evidence_summary: >-
+        Binds the Human Review Gate to the schema section that defines review
+        triggers, blocking conditions, allowed actions, rejected actions, and
+        decision records.
+
   cross_checks:
-    - check_id: check_v0.4_schema_example_alignment
+    - check_id: check_v0.5_schema_example_alignment
       checked_against: "examples/origin-trace-receipt.example.yaml"
       check_result: consistent
       check_notes: >-
-        The example is expected to validate against the v0.4 schema using
+        The example is expected to validate against the v0.5 schema using
         scripts/validate_examples.py.
 
   evidence_summary: >-
-    v0.4 binds the receipt to dialogue, repository-level references, schema
-    files, transformation diff records, and royalty handoff routing so that
-    downstream systems can inspect both evidence and value-return intent.
+    v0.5 binds the receipt to dialogue, repository-level references, schema
+    files, transformation diff records, royalty handoff routing, and human
+    review gate controls so that downstream systems can inspect evidence,
+    value-return intent, and review constraints.
 
 transformation_diff:
-  diff_id: diff_transformation_diff_to_royalty_handoff_v0.4
+  diff_id: diff_royalty_handoff_to_human_review_gate_v0.5
   diff_scope: schema
   input_references:
-    - "origin-trace-receipt.schema.json v0.3"
-    - "origin-trace-receipt.example.yaml v0.3"
-  output_references:
     - "origin-trace-receipt.schema.json v0.4"
     - "origin-trace-receipt.example.yaml v0.4"
+  output_references:
+    - "origin-trace-receipt.schema.json v0.5"
+    - "origin-trace-receipt.example.yaml v0.5"
 
   diff_items:
-    - element_id: element_top_level_royalty_handoff
+    - element_id: element_top_level_human_review_gate
       diff_type: added
       source_element: null
-      output_element: "royalty_handoff"
+      output_element: "human_review_gate"
       impact_level: critical
       semantic_distance: 0.8
       evidence_binding_ids:
-        - binding_royalty_handoff_schema
+        - binding_human_review_gate_schema
       review_flags:
         - high_novelty
         - requires_human_review
       rationale: >-
-        Adds a dedicated layer for routing origin, evidence, and transformation
-        diff records toward royalty, license, market, registry, or compute
-        access systems.
+        Adds a dedicated human review layer that prevents sensitive downstream
+        actions such as royalty execution, market registration, commercial use,
+        training use, or agent auto-handoff from proceeding without review.
 
-    - element_id: element_handoff_targets
+    - element_id: element_human_gate_blocking_conditions
       diff_type: added
-      source_element: null
-      output_element: "royalty_handoff.handoff_targets"
-      impact_level: high
-      semantic_distance: 0.7
-      evidence_binding_ids:
-        - binding_royalty_handoff_schema
-      review_flags:
-        - high_novelty
-      rationale: >-
-        Allows the receipt to identify which downstream systems should receive
-        the record and whether each target is ready, partial, blocked, or not
-        applicable.
-
-    - element_id: element_allocation_basis
-      diff_type: added
-      source_element: "royalty_hook.allocation"
-      output_element: "royalty_handoff.allocation_basis"
-      impact_level: high
-      semantic_distance: 0.5
-      evidence_binding_ids:
-        - binding_royalty_handoff_schema
-      review_flags:
-        - origin_preserved
-        - requires_human_review
-      rationale: >-
-        Extends the simple royalty hook into a reviewable basis for downstream
-        allocation decisions without executing payment.
-
-    - element_id: element_license_handoff
-      diff_type: added
-      source_element: "boundary.usage_policy"
-      output_element: "royalty_handoff.license_handoff"
+      source_element: "royalty_handoff.review_requirements"
+      output_element: "human_review_gate.blocking_conditions"
       impact_level: high
       semantic_distance: 0.6
       evidence_binding_ids:
-        - binding_royalty_handoff_schema
+        - binding_human_review_gate_schema
       review_flags:
         - requires_human_review
       rationale: >-
-        Connects usage policy, attribution, commercial status, and training
-        status to downstream license registries.
+        Converts review requirements into explicit blocking conditions that
+        can stop downstream actions until human review is complete.
 
-    - element_id: element_audit_royalty_ready
+    - element_id: element_human_gate_decision_record
       diff_type: added
       source_element: null
-      output_element: "audit.royalty_handoff_ready"
+      output_element: "human_review_gate.decision_record"
+      impact_level: high
+      semantic_distance: 0.7
+      evidence_binding_ids:
+        - binding_human_review_gate_schema
+      review_flags:
+        - requires_human_review
+      rationale: >-
+        Adds a structured decision record so downstream systems can determine
+        whether the receipt is pending, approved, approved with conditions,
+        rejected, or blocked.
+
+    - element_id: element_audit_human_review_gate_status
+      diff_type: added
+      source_element: "audit.human_review_required"
+      output_element: "audit.human_review_gate_status"
+      impact_level: medium
+      semantic_distance: 0.5
+      evidence_binding_ids:
+        - binding_human_review_gate_schema
+      review_flags:
+        - requires_human_review
+      rationale: >-
+        Extends the audit layer so that it can record whether human review is
+        required, pending, passed, rejected, blocked, or not required.
+
+    - element_id: element_evidence_target_layer_human_gate
+      diff_type: modified
+      source_element: "evidence.evidence_bindings.target_layer"
+      output_element: "evidence.evidence_bindings.target_layer includes human_review_gate"
       impact_level: medium
       semantic_distance: 0.4
       evidence_binding_ids:
-        - binding_royalty_handoff_schema
+        - binding_schema_file
+        - binding_human_review_gate_schema
       review_flags:
-        - requires_human_review
+        - origin_preserved
       rationale: >-
-        Allows audit systems to distinguish receipts that contain royalty
-        handoff routing from receipts that only contain informal royalty intent.
+        Extends evidence binding so that evidence can point directly to the
+        Human Review Gate schema and review constraints.
 
     - element_id: element_existing_layers
       diff_type: preserved
-      source_element: "origin / trace / transformation / evidence / transformation_diff / audit / royalty_hook / boundary / handoff"
-      output_element: "origin / trace / transformation / evidence / transformation_diff / audit / royalty_hook / royalty_handoff / boundary / handoff"
+      source_element: "origin / trace / transformation / evidence / transformation_diff / audit / royalty_hook / royalty_handoff / boundary / handoff"
+      output_element: "origin / trace / transformation / evidence / transformation_diff / audit / royalty_hook / royalty_handoff / human_review_gate / boundary / handoff"
       impact_level: low
       semantic_distance: 0.2
       evidence_binding_ids:
@@ -249,16 +267,15 @@ transformation_diff:
       review_flags:
         - origin_preserved
       rationale: >-
-        Preserves the v0.3 receipt architecture while adding a new layer for
-        value-return handoff routing.
+        Preserves the v0.4 receipt architecture while adding a final human
+        checkpoint for sensitive downstream actions.
 
-  preservation_score: 0.84
-  novelty_score: 0.62
+  preservation_score: 0.86
+  novelty_score: 0.58
   diff_summary: >-
-    v0.4 preserves the v0.3 receipt structure while adding a dedicated Royalty
-    Handoff Layer. The main change is the ability to route evidence-bound and
-    diff-aware records toward royalty, license, market, registry, or compute
-    access systems without executing settlement directly.
+    v0.5 preserves the v0.4 receipt structure while adding a dedicated Human
+    Review Gate. The main change is the ability to block sensitive downstream
+    actions until a defined human or multi-party review decision is recorded.
 
 audit:
   synchronization_risk: low
@@ -268,14 +285,16 @@ audit:
   transformation_diff_bound: true
   royalty_handoff_ready: true
   human_review_required: true
+  human_review_gate_status: required
   audit_notes: >-
-    The v0.4 receipt is evidence-bound, transformation-diff-bound, and ready
-    for royalty handoff review. It does not automatically decide ownership,
-    originality, infringement, licensing outcome, or payment execution.
+    The v0.5 receipt is evidence-bound, transformation-diff-bound,
+    royalty-handoff-ready, and controlled by a Human Review Gate.
+    It does not automatically decide ownership, originality, infringement,
+    licensing outcome, market registration, or payment execution.
 
 royalty_hook:
   enabled: true
-  policy_id: royalty_os_bridge_v0.4
+  policy_id: royalty_os_bridge_v0.5
   allocation:
     - recipient: originator
       role: originator
@@ -285,7 +304,7 @@ royalty_hook:
       share_percent: 10
 
 royalty_handoff:
-  handoff_id: royalty_handoff_origin_trace_receipt_v0.4
+  handoff_id: royalty_handoff_origin_trace_receipt_v0.5
   handoff_status: ready_for_review
 
   handoff_targets:
@@ -355,15 +374,16 @@ royalty_handoff:
       records as review inputs. It does not execute settlement automatically.
 
   license_handoff:
-    license_policy_id: attribution_required_v0.4
+    license_policy_id: attribution_required_v0.5
     usage_scope: limited
     attribution_required: true
     commercial_status: restricted
     training_status: restricted
     license_notes: >-
       Reuse is permitted when attribution, trace preservation, evidence binding,
-      transformation diff preservation, and downstream review are maintained.
-      Commercial use and AI training require explicit policy review.
+      transformation diff preservation, royalty handoff preservation, and human
+      review are maintained. Commercial use and AI training require explicit
+      policy review.
 
   review_requirements:
     human_review_required: true
@@ -388,9 +408,83 @@ royalty_handoff:
       performed by a downstream system after review.
 
   handoff_summary: >-
-    v0.4 routes the receipt toward origin market, license policy, and royalty
-    systems. It preserves the basis for value return while preventing automatic
-    payment or ownership decisions at the receipt layer.
+    v0.5 routes the receipt toward origin market, license policy, and royalty
+    systems while requiring Human Review Gate approval before sensitive
+    downstream actions proceed.
+
+human_review_gate:
+  gate_id: human_gate_origin_trace_receipt_v0.5
+  gate_status: pending_review
+  review_required: true
+
+  review_triggers:
+    - market_registration_requested
+    - external_settlement_requested
+    - missing_recipient_identity
+    - custom_policy
+
+  reviewer_roles:
+    - originator
+    - auditor
+    - market_operator
+
+  blocking_conditions:
+    - condition_id: condition_missing_recipient_identity
+      condition_type: missing_recipient_identity
+      severity: high
+      blocks_actions:
+        - royalty_execution
+        - external_settlement
+      condition_summary: >-
+        Royalty allocation intent exists, but recipient identity and external
+        settlement details are not complete enough for execution.
+
+    - condition_id: condition_market_registration_review
+      condition_type: market_registration
+      severity: medium
+      blocks_actions:
+        - market_registration
+        - public_claim
+      condition_summary: >-
+        Market registration should not proceed until the origin, evidence,
+        transformation diff, license policy, and royalty handoff are reviewed
+        by a human gatekeeper.
+
+    - condition_id: condition_custom_license_policy
+      condition_type: custom_policy
+      severity: medium
+      blocks_actions:
+        - license_publication
+        - commercial_use
+        - training_use
+      condition_summary: >-
+        Commercial use and AI training require explicit review because the
+        license handoff is restricted and policy-dependent.
+
+  allowed_after_review:
+    - archive_only
+    - attribution_publication
+    - license_publication
+    - market_registration
+    - royalty_handoff
+
+  rejected_actions:
+    - royalty_execution
+    - external_settlement
+    - agent_auto_handoff
+    - training_use
+
+  decision_record:
+    decision_status: pending
+    decision_authority: multi_party_review
+    decision_notes: >-
+      The receipt is ready for human review but not approved for automatic
+      settlement, external registration, or agent-driven execution.
+
+  gate_summary: >-
+    v0.5 adds a Human Review Gate so that evidence-bound, diff-aware, and
+    royalty-handoff-ready receipts cannot proceed to sensitive downstream
+    actions without human review. This closes the first arc of the standard.
 
 boundary:
   usage_policy: attribution_required
@@ -400,10 +494,13 @@ boundary:
     - removal of evidence bindings when used for downstream registration
     - removal of transformation diff records when claiming derivation
     - automatic royalty execution without human or downstream protocol review
+    - bypassing the Human Review Gate for sensitive downstream actions
+    - automatic market registration without review approval
+    - automatic royalty execution without review approval
   consent_notes: >-
     Reuse is permitted when attribution, trace preservation, evidence binding,
-    transformation diff preservation, royalty handoff preservation, and audit
-    review are maintained.
+    transformation diff preservation, royalty handoff preservation, Human Review
+    Gate preservation, and audit review are maintained.
 
 handoff:
   next_protocols:
@@ -419,10 +516,13 @@ handoff:
     - origin_trace_receipt_v0.1
     - origin_trace_receipt_v0.2
     - origin_trace_receipt_v0.3
+    - origin_trace_receipt_v0.4
+    - origin_trace_receipt_v0.5
   handoff_notes: >-
     Specialized protocols should handle detailed search traces, similarity
     audits, market listings, license policies, royalty allocation graphs,
-    deeper transformation-diff review, and any external settlement.
+    deeper transformation-diff review, Human Review Gate decisions, and any
+    external settlement.
 
 validation:
   validation_status: draft
