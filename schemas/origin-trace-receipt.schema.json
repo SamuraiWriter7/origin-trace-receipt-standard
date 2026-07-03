@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/origin-trace-receipt.schema.json",
+  "title": "Origin Trace Receipt",
+  "description": "A minimal record for preserving origin, trace, transformation, audit, and royalty handoff information for AI-assisted outputs.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "receipt_id",
+    "created_at",
+    "origin",
+    "trace",
+    "transformation",
+    "audit",
+    "boundary",
+    "handoff"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "record_type": {
+      "type": "string",
+      "const": "origin_trace_receipt"
+    },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^otr_[A-Za-z0-9._-]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "origin": {
+      "type": "object",
+      "required": ["origin_id", "title", "origin_type", "origin_summary"],
+      "additionalProperties": false,
+      "properties": {
+        "origin_id": {
+          "type": "string",
+          "pattern": "^origin_[A-Za-z0-9._-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin_type": {
+          "type": "string",
+          "enum": [
+            "idea",
+            "prompt",
+            "document",
+            "code",
+            "dataset",
+            "workflow",
+            "protocol",
+            "conversation",
+            "other"
+          ]
+        },
+        "origin_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "creator_reference": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "license_policy_id": {
+          "type": "string"
+        }
+      }
+    },
+    "trace": {
+      "type": "object",
+      "required": ["trace_id", "source_interactions"],
+      "additionalProperties": false,
+      "properties": {
+        "trace_id": {
+          "type": "string",
+          "pattern": "^trace_[A-Za-z0-9._-]+$"
+        },
+        "source_interactions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "source_id",
+              "source_type",
+              "role",
+              "contribution_weight",
+              "interaction_summary"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "source_id": {
+                "type": "string",
+                "pattern": "^source_[A-Za-z0-9._-]+$"
+              },
+              "source_type": {
+                "type": "string",
+                "enum": [
+                  "user_prompt",
+                  "file",
+                  "web_page",
+                  "repository",
+                  "conversation",
+                  "model_output",
+                  "manual_note",
+                  "other"
+                ]
+              },
+              "reference": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string",
+                "enum": ["primary", "supporting", "background", "counterexample"]
+              },
+              "contribution_weight": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "interaction_summary": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "transformation": {
+      "type": "object",
+      "required": [
+        "transformation_type",
+        "input_summary",
+        "output_summary",
+        "preserved_elements",
+        "changed_elements"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "transformation_type": {
+          "type": "string",
+          "enum": [
+            "summary",
+            "rewrite",
+            "specification",
+            "derivation",
+            "composition",
+            "analysis",
+            "translation",
+            "implementation",
+            "other"
+          ]
+        },
+        "input_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "output_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preserved_elements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "changed_elements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": [
+        "synchronization_risk",
+        "originality_assessment",
+        "evidence_level",
+        "human_review_required"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "synchronization_risk": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "unknown"]
+        },
+        "originality_assessment": {
+          "type": "string",
+          "enum": ["original", "derivative", "mixed", "uncertain"]
+        },
+        "evidence_level": {
+          "type": "string",
+          "enum": ["none", "self_declared", "trace_supported", "externally_verified"]
+        },
+        "human_review_required": {
+          "type": "boolean"
+        },
+        "audit_notes": {
+          "type": "string"
+        }
+      }
+    },
+    "royalty_hook": {
+      "type": "object",
+      "required": ["enabled", "allocation"],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "allocation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["recipient", "role", "share_percent"],
+            "additionalProperties": false,
+            "properties": {
+              "recipient": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string",
+                "enum": ["originator", "contributor", "maintainer", "fund", "other"]
+              },
+              "share_percent": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          }
+        }
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "required": ["usage_policy", "prohibited_uses", "consent_notes"],
+      "additionalProperties": false,
+      "properties": {
+        "usage_policy": {
+          "type": "string",
+          "enum": [
+            "open",
+            "attribution_required",
+            "commercial_allowed",
+            "commercial_restricted",
+            "no_training",
+            "custom"
+          ]
+        },
+        "prohibited_uses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "consent_notes": {
+          "type": "string"
+        }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "required": ["next_protocols", "related_records", "handoff_notes"],
+      "additionalProperties": false,
+      "properties": {
+        "next_protocols": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ai-search-trace-receipt-standard",
+              "synchronization-audit-protocol",
+              "origin-structure-market",
+              "origin-license-policy-registry",
+              "compute-access-royalty-os",
+              "kazene-memory-breathing-protocol",
+              "trace-relay-protocol",
+              "multi-wing-orchestration-generator",
+              "other"
+            ]
+          }
+        },
+        "related_records": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "handoff_notes": {
+          "type": "string"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "validation_status": {
+          "type": "string",
+          "enum": ["draft", "validated", "rejected"]
+        },
+        "receipt_hash": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
