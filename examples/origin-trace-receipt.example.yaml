@@ -1,77 +1,81 @@
-schema_version: "0.3.0"
+schema_version: "0.4.0"
 record_type: origin_trace_receipt
-receipt_id: otr_2026-07-03-transformation-diff-v0.3
-created_at: "2026-07-03T00:30:00Z"
+receipt_id: otr_2026-07-03-royalty-handoff-v0.4
+created_at: "2026-07-03T00:42:00Z"
 
 origin:
   origin_id: origin_trace_receipt_core
-  title: Trace Receipt / Audit / Origin Bridge
+  title: Trace Receipt / Audit / Origin / Royalty Bridge
   origin_type: protocol
   origin_summary: >-
     A bridge record that preserves the origin of an AI-assisted output,
     the traces it used, the transformation performed, audit status,
-    evidence bindings, transformation diffs, and downstream royalty or
-    market handoff information.
+    evidence bindings, transformation diffs, royalty handoff information,
+    and downstream market or license routing.
   creator_reference: Kazene / SamuraiWriter7
   repository: https://github.com/SamuraiWriter7/origin-trace-receipt-standard
-  license_policy_id: attribution_required_v0.3
+  license_policy_id: attribution_required_v0.4
 
 trace:
   trace_id: trace_initial_design
   source_interactions:
     - source_id: source_user_dialogue
       source_type: conversation
-      reference: "Design discussion about Trace Receipt, Evidence Binding Layer, and Transformation Diff Layer"
+      reference: "Design discussion about Trace Receipt, Evidence Binding, Transformation Diff, and Royalty Handoff"
       role: primary
       contribution_weight: 0.7
       interaction_summary: >-
         The dialogue identified trace, audit, origin, royalty, memory,
-        orchestration, evidence binding, and transformation diff as central
-        layers of an AI civilization OS.
+        orchestration, evidence binding, transformation diff, and royalty
+        handoff as central layers of an AI civilization OS.
 
     - source_id: source_existing_repos
       source_type: repository
-      reference: "AI Search Trace Receipt Standard / Synchronization Audit Protocol / Origin Structure Market"
+      reference: "AI Search Trace Receipt Standard / Synchronization Audit Protocol / Origin Structure Market / Royalty OS"
       role: supporting
       contribution_weight: 0.3
       interaction_summary: >-
-        Existing repository concepts were used as upstream protocol references
-        rather than replaced by this bridge record.
+        Existing repository concepts were used as upstream and downstream
+        protocol references rather than replaced by this bridge record.
 
 transformation:
   transformation_type: specification
   input_summary: >-
-    The v0.2 receipt preserved origin, trace, transformation, evidence,
-    audit, royalty, boundary, and handoff metadata, but did not explicitly
-    describe structural differences between input and output.
+    The v0.3 receipt preserved origin, trace, transformation, evidence,
+    transformation diff, audit, royalty hook, boundary, and handoff metadata,
+    but did not provide a dedicated routing layer for royalty, license, and
+    market systems.
   output_summary: >-
-    The v0.3 receipt adds a Transformation Diff Layer that records what was
-    preserved, added, removed, modified, formalized, or abstracted.
+    The v0.4 receipt adds a Royalty Handoff Layer that records which downstream
+    royalty, license, market, compute access, or registry protocols should
+    receive the receipt, and under what review conditions.
   preserved_elements:
     - origin preservation
     - source interaction trace
     - evidence binding
+    - transformation diff
     - synchronization audit
-    - royalty handoff
+    - royalty hook
     - protocol handoff
   changed_elements:
-    - added transformation diff layer
-    - added diff items
-    - added preservation score
-    - added novelty score
-    - added semantic distance
-    - added review flags
+    - added royalty handoff layer
+    - added royalty handoff targets
+    - added allocation basis
+    - added license handoff
+    - added review requirements
+    - added settlement intent
+    - added audit royalty handoff readiness
 
 evidence:
-  evidence_set_id: evidence_origin_trace_receipt_v0.3
+  evidence_set_id: evidence_origin_trace_receipt_v0.4
   binding_strategy: mixed
   evidence_bindings:
     - binding_id: binding_origin_dialogue
       target_layer: origin
       evidence_type: conversation_excerpt
       reference_type: local_reference
-      reference: "User-AI design dialogue initiating Origin Trace Receipt Standard and Transformation Diff Layer"
-      captured_at: "2026-07-03T00:30:04Z"
+      reference: "User-AI design dialogue initiating Origin Trace Receipt Standard and Royalty Handoff Layer"
+      captured_at: "2026-07-03T00:42:22Z"
       verification_status: self_attested
       confidence: 0.8
       immutable: false
@@ -81,21 +85,22 @@ evidence:
         be exposed directly in public records.
       evidence_summary: >-
         Supports the claim that the protocol originated from a design dialogue
-        connecting trace, audit, origin, royalty, evidence, and diff systems.
+        connecting trace, audit, origin, royalty, evidence, diff, and handoff
+        systems.
 
     - binding_id: binding_existing_protocol_refs
       target_layer: trace
       evidence_type: repository_url
       reference_type: url
       reference: "https://github.com/SamuraiWriter7"
-      captured_at: "2026-07-03T00:30:00Z"
+      captured_at: "2026-07-03T00:42:00Z"
       verification_status: trace_supported
       confidence: 0.7
       immutable: false
       redaction_status: none
       evidence_summary: >-
-        Supports the claim that the receipt is designed as a bridge rather
-        than a replacement for specialized upstream repositories.
+        Supports the claim that the receipt is designed as a bridge between
+        specialized upstream and downstream repositories.
 
     - binding_id: binding_schema_file
       target_layer: whole_receipt
@@ -120,94 +125,123 @@ evidence:
       redaction_status: none
       evidence_summary: >-
         Binds the Transformation Diff Layer to the schema section that defines
-        diff IDs, scope, diff items, preservation score, and novelty score.
+        structural change tracking.
+
+    - binding_id: binding_royalty_handoff_schema
+      target_layer: royalty_handoff
+      evidence_type: file_reference
+      reference_type: file_path
+      reference: "schemas/origin-trace-receipt.schema.json#/properties/royalty_handoff"
+      verification_status: trace_supported
+      confidence: 0.9
+      immutable: false
+      redaction_status: none
+      evidence_summary: >-
+        Binds the Royalty Handoff Layer to the schema section that defines
+        downstream royalty, license, market, and review routing.
 
   cross_checks:
-    - check_id: check_v0.3_schema_example_alignment
+    - check_id: check_v0.4_schema_example_alignment
       checked_against: "examples/origin-trace-receipt.example.yaml"
       check_result: consistent
       check_notes: >-
-        The example is expected to validate against the v0.3 schema using
+        The example is expected to validate against the v0.4 schema using
         scripts/validate_examples.py.
 
   evidence_summary: >-
-    v0.3 binds the receipt to dialogue, repository-level references, schema
-    files, and the Transformation Diff Layer so that later audit systems can
-    inspect both claims and structural changes.
+    v0.4 binds the receipt to dialogue, repository-level references, schema
+    files, transformation diff records, and royalty handoff routing so that
+    downstream systems can inspect both evidence and value-return intent.
 
 transformation_diff:
-  diff_id: diff_evidence_to_transformation_diff_v0.3
+  diff_id: diff_transformation_diff_to_royalty_handoff_v0.4
   diff_scope: schema
   input_references:
-    - "origin-trace-receipt.schema.json v0.2"
-    - "origin-trace-receipt.example.yaml v0.2"
-  output_references:
     - "origin-trace-receipt.schema.json v0.3"
     - "origin-trace-receipt.example.yaml v0.3"
+  output_references:
+    - "origin-trace-receipt.schema.json v0.4"
+    - "origin-trace-receipt.example.yaml v0.4"
 
   diff_items:
-    - element_id: element_top_level_transformation_diff
+    - element_id: element_top_level_royalty_handoff
       diff_type: added
       source_element: null
-      output_element: "transformation_diff"
+      output_element: "royalty_handoff"
       impact_level: critical
       semantic_distance: 0.8
       evidence_binding_ids:
-        - binding_transformation_diff_schema
+        - binding_royalty_handoff_schema
       review_flags:
         - high_novelty
         - requires_human_review
       rationale: >-
-        Adds a dedicated layer for recording how an AI-assisted output differs
-        from its input structures.
+        Adds a dedicated layer for routing origin, evidence, and transformation
+        diff records toward royalty, license, market, registry, or compute
+        access systems.
 
-    - element_id: element_diff_items
+    - element_id: element_handoff_targets
       diff_type: added
       source_element: null
-      output_element: "transformation_diff.diff_items"
+      output_element: "royalty_handoff.handoff_targets"
       impact_level: high
       semantic_distance: 0.7
       evidence_binding_ids:
-        - binding_transformation_diff_schema
+        - binding_royalty_handoff_schema
       review_flags:
         - high_novelty
       rationale: >-
-        Allows each preserved, added, removed, modified, formalized, or
-        abstracted element to be recorded separately.
+        Allows the receipt to identify which downstream systems should receive
+        the record and whether each target is ready, partial, blocked, or not
+        applicable.
 
-    - element_id: element_evidence_target_layer
-      diff_type: modified
-      source_element: "evidence.evidence_bindings.target_layer"
-      output_element: "evidence.evidence_bindings.target_layer includes transformation_diff"
-      impact_level: medium
-      semantic_distance: 0.4
-      evidence_binding_ids:
-        - binding_schema_file
-        - binding_transformation_diff_schema
-      review_flags:
-        - origin_preserved
-      rationale: >-
-        Extends evidence binding so that evidence can point directly to
-        transformation diff claims.
-
-    - element_id: element_audit_diff_bound
+    - element_id: element_allocation_basis
       diff_type: added
-      source_element: null
-      output_element: "audit.transformation_diff_bound"
-      impact_level: medium
+      source_element: "royalty_hook.allocation"
+      output_element: "royalty_handoff.allocation_basis"
+      impact_level: high
       semantic_distance: 0.5
       evidence_binding_ids:
-        - binding_transformation_diff_schema
+        - binding_royalty_handoff_schema
+      review_flags:
+        - origin_preserved
+        - requires_human_review
+      rationale: >-
+        Extends the simple royalty hook into a reviewable basis for downstream
+        allocation decisions without executing payment.
+
+    - element_id: element_license_handoff
+      diff_type: added
+      source_element: "boundary.usage_policy"
+      output_element: "royalty_handoff.license_handoff"
+      impact_level: high
+      semantic_distance: 0.6
+      evidence_binding_ids:
+        - binding_royalty_handoff_schema
       review_flags:
         - requires_human_review
       rationale: >-
-        Lets audit systems distinguish between receipts that merely describe
-        transformations and receipts that provide explicit diff records.
+        Connects usage policy, attribution, commercial status, and training
+        status to downstream license registries.
+
+    - element_id: element_audit_royalty_ready
+      diff_type: added
+      source_element: null
+      output_element: "audit.royalty_handoff_ready"
+      impact_level: medium
+      semantic_distance: 0.4
+      evidence_binding_ids:
+        - binding_royalty_handoff_schema
+      review_flags:
+        - requires_human_review
+      rationale: >-
+        Allows audit systems to distinguish receipts that contain royalty
+        handoff routing from receipts that only contain informal royalty intent.
 
     - element_id: element_existing_layers
       diff_type: preserved
-      source_element: "origin / trace / transformation / evidence / audit / royalty_hook / boundary / handoff"
-      output_element: "origin / trace / transformation / evidence / transformation_diff / audit / royalty_hook / boundary / handoff"
+      source_element: "origin / trace / transformation / evidence / transformation_diff / audit / royalty_hook / boundary / handoff"
+      output_element: "origin / trace / transformation / evidence / transformation_diff / audit / royalty_hook / royalty_handoff / boundary / handoff"
       impact_level: low
       semantic_distance: 0.2
       evidence_binding_ids:
@@ -215,16 +249,16 @@ transformation_diff:
       review_flags:
         - origin_preserved
       rationale: >-
-        Preserves the v0.2 receipt architecture while adding a new layer for
-        structural difference tracking.
+        Preserves the v0.3 receipt architecture while adding a new layer for
+        value-return handoff routing.
 
-  preservation_score: 0.82
-  novelty_score: 0.68
+  preservation_score: 0.84
+  novelty_score: 0.62
   diff_summary: >-
-    v0.3 preserves the v0.2 receipt structure while adding a dedicated
-    Transformation Diff Layer. The main change is the ability to describe
-    structural changes between input and output, including added, modified,
-    preserved, and formalized elements.
+    v0.4 preserves the v0.3 receipt structure while adding a dedicated Royalty
+    Handoff Layer. The main change is the ability to route evidence-bound and
+    diff-aware records toward royalty, license, market, registry, or compute
+    access systems without executing settlement directly.
 
 audit:
   synchronization_risk: low
@@ -232,15 +266,16 @@ audit:
   evidence_level: evidence_bound
   evidence_bound: true
   transformation_diff_bound: true
+  royalty_handoff_ready: true
   human_review_required: true
   audit_notes: >-
-    The v0.3 receipt is evidence-bound and transformation-diff-bound.
-    It records structural changes but does not automatically decide ownership,
-    originality, or infringement.
+    The v0.4 receipt is evidence-bound, transformation-diff-bound, and ready
+    for royalty handoff review. It does not automatically decide ownership,
+    originality, infringement, licensing outcome, or payment execution.
 
 royalty_hook:
   enabled: true
-  policy_id: royalty_os_bridge_v0.3
+  policy_id: royalty_os_bridge_v0.4
   allocation:
     - recipient: originator
       role: originator
@@ -249,6 +284,114 @@ royalty_hook:
       role: fund
       share_percent: 10
 
+royalty_handoff:
+  handoff_id: royalty_handoff_origin_trace_receipt_v0.4
+  handoff_status: ready_for_review
+
+  handoff_targets:
+    - target_id: target_origin_structure_market
+      target_protocol: origin-structure-market
+      target_reference: "https://github.com/SamuraiWriter7/origin-structure-market"
+      target_purpose: market_registration
+      required_inputs:
+        - origin
+        - trace
+        - evidence
+        - transformation_diff
+        - license_policy
+        - human_review
+      missing_inputs: []
+      handoff_readiness: ready
+      target_notes: >-
+        The receipt can be reviewed for possible registration as an origin or
+        derivative structure asset.
+
+    - target_id: target_origin_license_policy_registry
+      target_protocol: origin-license-policy-registry
+      target_reference: "https://github.com/SamuraiWriter7/origin-license-policy-registry"
+      target_purpose: licensing
+      required_inputs:
+        - origin
+        - evidence
+        - royalty_hook
+        - license_policy
+        - human_review
+      missing_inputs: []
+      handoff_readiness: ready
+      target_notes: >-
+        The receipt can be routed to a license policy registry for attribution,
+        commercial use, AI training, and derivative-use policy review.
+
+    - target_id: target_compute_access_royalty_os
+      target_protocol: compute-access-royalty-os
+      target_reference: "https://github.com/SamuraiWriter7/compute-access-royalty-os"
+      target_purpose: royalty_allocation
+      required_inputs:
+        - origin
+        - trace
+        - evidence
+        - royalty_hook
+        - recipient_identity
+      missing_inputs:
+        - recipient_identity
+      handoff_readiness: partial
+      target_notes: >-
+        Royalty allocation intent is present, but recipient identity and
+        external settlement details require review before execution.
+
+  allocation_basis:
+    basis_type: mixed
+    source_layers:
+      - origin
+      - trace
+      - evidence
+      - transformation_diff
+      - royalty_hook
+      - boundary
+    calculation_method: manual_review
+    allocation_notes: >-
+      The current allocation basis uses the declared royalty hook, source
+      contribution weights, evidence confidence, and transformation diff
+      records as review inputs. It does not execute settlement automatically.
+
+  license_handoff:
+    license_policy_id: attribution_required_v0.4
+    usage_scope: limited
+    attribution_required: true
+    commercial_status: restricted
+    training_status: restricted
+    license_notes: >-
+      Reuse is permitted when attribution, trace preservation, evidence binding,
+      transformation diff preservation, and downstream review are maintained.
+      Commercial use and AI training require explicit policy review.
+
+  review_requirements:
+    human_review_required: true
+    reviewer_role: auditor
+    review_triggers:
+      - missing_recipient
+      - custom_policy
+      - low_evidence_confidence
+    review_notes: >-
+      Human review is required before market registration, royalty allocation,
+      or external settlement. The receipt is suitable for review but not for
+      automatic payment execution.
+
+  settlement_intent:
+    enabled: true
+    execution_mode: review_required
+    settlement_type: royalty_split
+    currency: "unspecified"
+    unit: "percent"
+    settlement_notes: >-
+      The receipt records royalty split intent only. Actual settlement must be
+      performed by a downstream system after review.
+
+  handoff_summary: >-
+    v0.4 routes the receipt toward origin market, license policy, and royalty
+    systems. It preserves the basis for value return while preventing automatic
+    payment or ownership decisions at the receipt layer.
+
 boundary:
   usage_policy: attribution_required
   prohibited_uses:
@@ -256,9 +399,11 @@ boundary:
     - removal of trace or audit metadata
     - removal of evidence bindings when used for downstream registration
     - removal of transformation diff records when claiming derivation
+    - automatic royalty execution without human or downstream protocol review
   consent_notes: >-
     Reuse is permitted when attribution, trace preservation, evidence binding,
-    transformation diff preservation, and audit handoff are maintained.
+    transformation diff preservation, royalty handoff preservation, and audit
+    review are maintained.
 
 handoff:
   next_protocols:
@@ -266,16 +411,18 @@ handoff:
     - synchronization-audit-protocol
     - origin-structure-market
     - origin-license-policy-registry
+    - compute-access-royalty-os
   related_records:
     - ai_search_trace_receipt_v0.5
     - sync_audit_protocol_v0.5
     - origin_structure_market_v0.5
     - origin_trace_receipt_v0.1
     - origin_trace_receipt_v0.2
+    - origin_trace_receipt_v0.3
   handoff_notes: >-
     Specialized protocols should handle detailed search traces, similarity
-    audits, market listings, license policies, royalty allocation graphs, and
-    deeper transformation-diff review.
+    audits, market listings, license policies, royalty allocation graphs,
+    deeper transformation-diff review, and any external settlement.
 
 validation:
   validation_status: draft
