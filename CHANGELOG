@@ -1,0 +1,31 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [v0.1.0-candidate] - 2026-07-02
+
+### Added
+
+- Initial `Origin Trace Receipt` schema.
+- Added origin layer for identifying the source idea, prompt, document, code, workflow, or protocol.
+- Added trace layer for recording source interactions.
+- Added transformation layer for describing how an input became an output.
+- Added audit layer for synchronization risk, originality assessment, evidence level, and human review requirements.
+- Added royalty hook layer for downstream royalty-aware systems.
+- Added boundary layer for usage policy and prohibited uses.
+- Added handoff layer for connecting to specialized downstream protocols.
+- Added YAML example.
+- Added validation script.
+- Added GitHub Actions workflow for schema validation.
+
+### Purpose
+
+This v0.1 release establishes the minimum bridge record between:
+
+- AI Search Trace Receipt Standard
+- Synchronization Audit Protocol
+- Origin Structure Market
+- Origin License Policy Registry
+- Royalty OS
+- Memory Breathing / Trace Relay systems
+- Multi-Wing orchestration systems
