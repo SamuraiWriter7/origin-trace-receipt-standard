@@ -1,7 +1,7 @@
-schema_version: "0.2.0"
+schema_version: "0.3.0"
 record_type: origin_trace_receipt
-receipt_id: otr_2026-07-03-evidence-binding-v0.2
-created_at: "2026-07-03T00:20:00Z"
+receipt_id: otr_2026-07-03-transformation-diff-v0.3
+created_at: "2026-07-03T00:30:00Z"
 
 origin:
   origin_id: origin_trace_receipt_core
@@ -10,23 +10,24 @@ origin:
   origin_summary: >-
     A bridge record that preserves the origin of an AI-assisted output,
     the traces it used, the transformation performed, audit status,
-    evidence bindings, and downstream royalty or market handoff information.
+    evidence bindings, transformation diffs, and downstream royalty or
+    market handoff information.
   creator_reference: Kazene / SamuraiWriter7
   repository: https://github.com/SamuraiWriter7/origin-trace-receipt-standard
-  license_policy_id: attribution_required_v0.2
+  license_policy_id: attribution_required_v0.3
 
 trace:
   trace_id: trace_initial_design
   source_interactions:
     - source_id: source_user_dialogue
       source_type: conversation
-      reference: "Design discussion about Trace Receipt, Synchronization Audit, Origin Structure Market, and Evidence Binding Layer"
+      reference: "Design discussion about Trace Receipt, Evidence Binding Layer, and Transformation Diff Layer"
       role: primary
       contribution_weight: 0.7
       interaction_summary: >-
         The dialogue identified trace, audit, origin, royalty, memory,
-        orchestration, and evidence binding as central layers of an AI
-        civilization OS.
+        orchestration, evidence binding, and transformation diff as central
+        layers of an AI civilization OS.
 
     - source_id: source_existing_repos
       source_type: repository
@@ -40,38 +41,37 @@ trace:
 transformation:
   transformation_type: specification
   input_summary: >-
-    The v0.1 receipt preserved origin, trace, transformation, audit, royalty,
-    boundary, and handoff metadata, but did not explicitly bind those claims
-    to concrete evidence.
+    The v0.2 receipt preserved origin, trace, transformation, evidence,
+    audit, royalty, boundary, and handoff metadata, but did not explicitly
+    describe structural differences between input and output.
   output_summary: >-
-    The v0.2 receipt adds an Evidence Binding Layer that links receipt claims
-    to conversation excerpts, repository references, commits, hashes, files,
-    timestamps, or external receipts.
+    The v0.3 receipt adds a Transformation Diff Layer that records what was
+    preserved, added, removed, modified, formalized, or abstracted.
   preserved_elements:
     - origin preservation
     - source interaction trace
-    - transformation summary
+    - evidence binding
     - synchronization audit
     - royalty handoff
     - protocol handoff
   changed_elements:
-    - added evidence set
-    - added evidence bindings
-    - added target-layer binding
-    - added verification status
-    - added confidence scoring
-    - added optional cross-checks
+    - added transformation diff layer
+    - added diff items
+    - added preservation score
+    - added novelty score
+    - added semantic distance
+    - added review flags
 
 evidence:
-  evidence_set_id: evidence_origin_trace_receipt_v0.2
+  evidence_set_id: evidence_origin_trace_receipt_v0.3
   binding_strategy: mixed
   evidence_bindings:
     - binding_id: binding_origin_dialogue
       target_layer: origin
       evidence_type: conversation_excerpt
       reference_type: local_reference
-      reference: "User-AI design dialogue initiating Origin Trace Receipt Standard and Evidence Binding Layer"
-      captured_at: "2026-07-03T00:17:49Z"
+      reference: "User-AI design dialogue initiating Origin Trace Receipt Standard and Transformation Diff Layer"
+      captured_at: "2026-07-03T00:30:04Z"
       verification_status: self_attested
       confidence: 0.8
       immutable: false
@@ -81,14 +81,14 @@ evidence:
         be exposed directly in public records.
       evidence_summary: >-
         Supports the claim that the protocol originated from a design dialogue
-        connecting trace, audit, origin, and royalty systems.
+        connecting trace, audit, origin, royalty, evidence, and diff systems.
 
     - binding_id: binding_existing_protocol_refs
       target_layer: trace
       evidence_type: repository_url
       reference_type: url
       reference: "https://github.com/SamuraiWriter7"
-      captured_at: "2026-07-03T00:20:00Z"
+      captured_at: "2026-07-03T00:30:00Z"
       verification_status: trace_supported
       confidence: 0.7
       immutable: false
@@ -109,32 +109,138 @@ evidence:
       evidence_summary: >-
         Binds the receipt structure to the machine-readable JSON Schema file.
 
+    - binding_id: binding_transformation_diff_schema
+      target_layer: transformation_diff
+      evidence_type: file_reference
+      reference_type: file_path
+      reference: "schemas/origin-trace-receipt.schema.json#/properties/transformation_diff"
+      verification_status: trace_supported
+      confidence: 0.9
+      immutable: false
+      redaction_status: none
+      evidence_summary: >-
+        Binds the Transformation Diff Layer to the schema section that defines
+        diff IDs, scope, diff items, preservation score, and novelty score.
+
   cross_checks:
-    - check_id: check_v0.2_schema_example_alignment
+    - check_id: check_v0.3_schema_example_alignment
       checked_against: "examples/origin-trace-receipt.example.yaml"
       check_result: consistent
       check_notes: >-
-        The example is expected to validate against the v0.2 schema using
+        The example is expected to validate against the v0.3 schema using
         scripts/validate_examples.py.
 
   evidence_summary: >-
-    v0.2 binds the receipt to dialogue, repository-level references, and schema
-    files so that later audit systems can inspect where claims originated.
+    v0.3 binds the receipt to dialogue, repository-level references, schema
+    files, and the Transformation Diff Layer so that later audit systems can
+    inspect both claims and structural changes.
+
+transformation_diff:
+  diff_id: diff_evidence_to_transformation_diff_v0.3
+  diff_scope: schema
+  input_references:
+    - "origin-trace-receipt.schema.json v0.2"
+    - "origin-trace-receipt.example.yaml v0.2"
+  output_references:
+    - "origin-trace-receipt.schema.json v0.3"
+    - "origin-trace-receipt.example.yaml v0.3"
+
+  diff_items:
+    - element_id: element_top_level_transformation_diff
+      diff_type: added
+      source_element: null
+      output_element: "transformation_diff"
+      impact_level: critical
+      semantic_distance: 0.8
+      evidence_binding_ids:
+        - binding_transformation_diff_schema
+      review_flags:
+        - high_novelty
+        - requires_human_review
+      rationale: >-
+        Adds a dedicated layer for recording how an AI-assisted output differs
+        from its input structures.
+
+    - element_id: element_diff_items
+      diff_type: added
+      source_element: null
+      output_element: "transformation_diff.diff_items"
+      impact_level: high
+      semantic_distance: 0.7
+      evidence_binding_ids:
+        - binding_transformation_diff_schema
+      review_flags:
+        - high_novelty
+      rationale: >-
+        Allows each preserved, added, removed, modified, formalized, or
+        abstracted element to be recorded separately.
+
+    - element_id: element_evidence_target_layer
+      diff_type: modified
+      source_element: "evidence.evidence_bindings.target_layer"
+      output_element: "evidence.evidence_bindings.target_layer includes transformation_diff"
+      impact_level: medium
+      semantic_distance: 0.4
+      evidence_binding_ids:
+        - binding_schema_file
+        - binding_transformation_diff_schema
+      review_flags:
+        - origin_preserved
+      rationale: >-
+        Extends evidence binding so that evidence can point directly to
+        transformation diff claims.
+
+    - element_id: element_audit_diff_bound
+      diff_type: added
+      source_element: null
+      output_element: "audit.transformation_diff_bound"
+      impact_level: medium
+      semantic_distance: 0.5
+      evidence_binding_ids:
+        - binding_transformation_diff_schema
+      review_flags:
+        - requires_human_review
+      rationale: >-
+        Lets audit systems distinguish between receipts that merely describe
+        transformations and receipts that provide explicit diff records.
+
+    - element_id: element_existing_layers
+      diff_type: preserved
+      source_element: "origin / trace / transformation / evidence / audit / royalty_hook / boundary / handoff"
+      output_element: "origin / trace / transformation / evidence / transformation_diff / audit / royalty_hook / boundary / handoff"
+      impact_level: low
+      semantic_distance: 0.2
+      evidence_binding_ids:
+        - binding_schema_file
+      review_flags:
+        - origin_preserved
+      rationale: >-
+        Preserves the v0.2 receipt architecture while adding a new layer for
+        structural difference tracking.
+
+  preservation_score: 0.82
+  novelty_score: 0.68
+  diff_summary: >-
+    v0.3 preserves the v0.2 receipt structure while adding a dedicated
+    Transformation Diff Layer. The main change is the ability to describe
+    structural changes between input and output, including added, modified,
+    preserved, and formalized elements.
 
 audit:
   synchronization_risk: low
   originality_assessment: mixed
   evidence_level: evidence_bound
   evidence_bound: true
+  transformation_diff_bound: true
   human_review_required: true
   audit_notes: >-
-    The v0.2 receipt is evidence-bound but not externally verified.
-    It preserves reviewable links for later audit without making automatic
-    ownership or originality claims.
+    The v0.3 receipt is evidence-bound and transformation-diff-bound.
+    It records structural changes but does not automatically decide ownership,
+    originality, or infringement.
 
 royalty_hook:
   enabled: true
-  policy_id: royalty_os_bridge_v0.2
+  policy_id: royalty_os_bridge_v0.3
   allocation:
     - recipient: originator
       role: originator
@@ -149,9 +255,10 @@ boundary:
     - false attribution of origin
     - removal of trace or audit metadata
     - removal of evidence bindings when used for downstream registration
+    - removal of transformation diff records when claiming derivation
   consent_notes: >-
-    Reuse is permitted when attribution, trace preservation, audit handoff,
-    and evidence binding are maintained.
+    Reuse is permitted when attribution, trace preservation, evidence binding,
+    transformation diff preservation, and audit handoff are maintained.
 
 handoff:
   next_protocols:
@@ -164,9 +271,11 @@ handoff:
     - sync_audit_protocol_v0.5
     - origin_structure_market_v0.5
     - origin_trace_receipt_v0.1
+    - origin_trace_receipt_v0.2
   handoff_notes: >-
     Specialized protocols should handle detailed search traces, similarity
-    audits, market listings, license policies, and royalty allocation graphs.
+    audits, market listings, license policies, royalty allocation graphs, and
+    deeper transformation-diff review.
 
 validation:
   validation_status: draft
