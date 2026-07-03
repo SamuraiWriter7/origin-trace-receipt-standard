@@ -168,6 +168,39 @@ Each evidence binding can target a specific receipt layer:
 
 This makes the receipt auditable without forcing all downstream systems to use the same evidence format.
 
+### 5. Transformation Diff Layer
+
+The Transformation Diff Layer records how an output differs from its inputs.
+
+It can describe whether elements were:
+
+- preserved
+- added
+- removed
+- modified
+- merged
+- split
+- reordered
+- abstracted
+- formalized
+
+This layer does not automatically determine ownership or infringement.
+
+Instead, it preserves the structural difference record needed for later audit, attribution, licensing, royalty allocation, or market registration.
+
+Each diff item may include:
+
+- source element
+- output element
+- diff type
+- impact level
+- semantic distance
+- evidence binding IDs
+- review flags
+- rationale
+
+This allows downstream systems to inspect whether an AI-assisted output is mostly preserved, lightly modified, deeply transformed, or structurally novel.
+
 ## Minimal Example
 
 ```yaml
