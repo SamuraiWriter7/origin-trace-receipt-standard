@@ -2,6 +2,60 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.3.0-candidate] - 2026-07-03
+
+### Added
+
+- Added Transformation Diff Layer.
+- Added `transformation_diff` as a required top-level receipt layer.
+- Added `diff_id` for identifying transformation diff records.
+- Added `diff_scope` for classifying the type of diff:
+  - conceptual
+  - textual
+  - structural
+  - schema
+  - code
+  - workflow
+  - mixed
+- Added input and output references for diff comparison.
+- Added `diff_items` for element-level structural change tracking.
+- Added diff types:
+  - preserved
+  - added
+  - removed
+  - modified
+  - merged
+  - split
+  - reordered
+  - abstracted
+  - formalized
+- Added impact levels for diff items.
+- Added optional semantic distance scoring.
+- Added evidence binding IDs for diff items.
+- Added review flags for diff items.
+- Added preservation score.
+- Added novelty score.
+- Added diff summary.
+- Added `transformation_diff` as an evidence target layer.
+- Added `audit.transformation_diff_bound`.
+
+### Changed
+
+- Updated `schema_version` from `0.2.0` to `0.3.0`.
+- Updated example receipt to demonstrate schema-level transformation diff.
+- Updated audit semantics to distinguish evidence-bound receipts from transformation-diff-bound receipts.
+- Updated boundary rules to discourage removal of transformation diff records when claiming derivation.
+
+### Purpose
+
+v0.3 records how an AI-assisted output structurally differs from its inputs.
+
+v0.2 made the receipt evidence-bound.  
+v0.3 makes it diff-aware.
+
+The goal is not to automatically decide originality, ownership, or infringement.  
+The goal is to preserve a structured difference record that later audit, licensing, royalty, and market systems can inspect.
+
 ## [v0.2.0-candidate] - 2026-07-03
 
 ### Added
