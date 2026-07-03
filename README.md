@@ -201,6 +201,39 @@ Each diff item may include:
 
 This allows downstream systems to inspect whether an AI-assisted output is mostly preserved, lightly modified, deeply transformed, or structurally novel.
 
+### 6. Royalty Handoff Layer
+
+The Royalty Handoff Layer routes an evidence-bound and diff-aware receipt toward downstream value-return systems.
+
+It does not execute payment.  
+It does not decide ownership.  
+It does not automatically determine licensing outcome.
+
+Instead, it records whether the receipt is ready to be reviewed by systems such as:
+
+- Royalty OS
+- Compute Access Royalty OS
+- Origin Structure Market
+- Origin License Policy Registry
+- OKF Royalty OS Bridge
+- external marketplaces
+- external registries
+
+The layer may describe:
+
+- handoff status
+- handoff targets
+- target protocol
+- target purpose
+- required inputs
+- missing inputs
+- allocation basis
+- license handoff status
+- review requirements
+- settlement intent
+
+This makes the receipt usable as a bridge between trace preservation and value return.
+
 ## Minimal Example
 
 ```yaml
