@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.org/schemas/origin-trace-receipt.schema.json",
   "title": "Origin Trace Receipt",
-  "description": "A record for preserving origin, trace, transformation, evidence binding, audit, and royalty handoff information for AI-assisted outputs.",
+  "description": "A record for preserving origin, trace, transformation, evidence binding, transformation diff, audit, and royalty handoff information for AI-assisted outputs.",
   "type": "object",
   "required": [
     "schema_version",
@@ -13,6 +13,7 @@
     "trace",
     "transformation",
     "evidence",
+    "transformation_diff",
     "audit",
     "boundary",
     "handoff"
@@ -21,7 +22,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "0.2.0"
+      "const": "0.3.0"
     },
     "record_type": {
       "type": "string",
@@ -250,6 +251,8 @@
                   "origin",
                   "trace",
                   "transformation",
+                  "evidence",
+                  "transformation_diff",
                   "audit",
                   "royalty_hook",
                   "boundary",
@@ -398,6 +401,155 @@
         }
       }
     },
+    "transformation_diff": {
+      "type": "object",
+      "required": [
+        "diff_id",
+        "diff_scope",
+        "input_references",
+        "output_references",
+        "diff_items",
+        "preservation_score",
+        "novelty_score",
+        "diff_summary"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "diff_id": {
+          "type": "string",
+          "pattern": "^diff_[A-Za-z0-9._-]+$"
+        },
+        "diff_scope": {
+          "type": "string",
+          "enum": [
+            "conceptual",
+            "textual",
+            "structural",
+            "schema",
+            "code",
+            "workflow",
+            "mixed"
+          ]
+        },
+        "input_references": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_references": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "diff_items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "element_id",
+              "diff_type",
+              "source_element",
+              "output_element",
+              "impact_level",
+              "rationale"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "element_id": {
+                "type": "string",
+                "pattern": "^element_[A-Za-z0-9._-]+$"
+              },
+              "diff_type": {
+                "type": "string",
+                "enum": [
+                  "preserved",
+                  "added",
+                  "removed",
+                  "modified",
+                  "merged",
+                  "split",
+                  "reordered",
+                  "abstracted",
+                  "formalized",
+                  "other"
+                ]
+              },
+              "source_element": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "output_element": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "impact_level": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "critical"
+                ]
+              },
+              "semantic_distance": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_binding_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^binding_[A-Za-z0-9._-]+$"
+                }
+              },
+              "review_flags": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "requires_human_review",
+                    "possible_overwrite",
+                    "possible_derivation",
+                    "origin_preserved",
+                    "high_novelty",
+                    "low_traceability",
+                    "other"
+                  ]
+                }
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "preservation_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "novelty_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "diff_summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "audit": {
       "type": "object",
       "required": [
@@ -405,6 +557,7 @@
         "originality_assessment",
         "evidence_level",
         "evidence_bound",
+        "transformation_diff_bound",
         "human_review_required"
       ],
       "additionalProperties": false,
@@ -438,6 +591,9 @@
           ]
         },
         "evidence_bound": {
+          "type": "boolean"
+        },
+        "transformation_diff_bound": {
           "type": "boolean"
         },
         "human_review_required": {
