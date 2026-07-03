@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.org/schemas/origin-trace-receipt.schema.json",
   "title": "Origin Trace Receipt",
-  "description": "A minimal record for preserving origin, trace, transformation, audit, and royalty handoff information for AI-assisted outputs.",
+  "description": "A record for preserving origin, trace, transformation, evidence binding, audit, and royalty handoff information for AI-assisted outputs.",
   "type": "object",
   "required": [
     "schema_version",
@@ -12,6 +12,7 @@
     "origin",
     "trace",
     "transformation",
+    "evidence",
     "audit",
     "boundary",
     "handoff"
@@ -20,7 +21,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "0.1.0"
+      "const": "0.2.0"
     },
     "record_type": {
       "type": "string",
@@ -36,7 +37,12 @@
     },
     "origin": {
       "type": "object",
-      "required": ["origin_id", "title", "origin_type", "origin_summary"],
+      "required": [
+        "origin_id",
+        "title",
+        "origin_type",
+        "origin_summary"
+      ],
       "additionalProperties": false,
       "properties": {
         "origin_id": {
@@ -78,7 +84,10 @@
     },
     "trace": {
       "type": "object",
-      "required": ["trace_id", "source_interactions"],
+      "required": [
+        "trace_id",
+        "source_interactions"
+      ],
       "additionalProperties": false,
       "properties": {
         "trace_id": {
@@ -121,7 +130,12 @@
               },
               "role": {
                 "type": "string",
-                "enum": ["primary", "supporting", "background", "counterexample"]
+                "enum": [
+                  "primary",
+                  "supporting",
+                  "background",
+                  "counterexample"
+                ]
               },
               "contribution_weight": {
                 "type": "number",
@@ -184,27 +198,247 @@
         }
       }
     },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "evidence_set_id",
+        "binding_strategy",
+        "evidence_bindings",
+        "evidence_summary"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_set_id": {
+          "type": "string",
+          "pattern": "^evidence_[A-Za-z0-9._-]+$"
+        },
+        "binding_strategy": {
+          "type": "string",
+          "enum": [
+            "self_declared",
+            "trace_linked",
+            "hash_bound",
+            "commit_bound",
+            "externally_verified",
+            "mixed"
+          ]
+        },
+        "evidence_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "binding_id",
+              "target_layer",
+              "evidence_type",
+              "reference_type",
+              "reference",
+              "verification_status",
+              "confidence",
+              "evidence_summary"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "binding_id": {
+                "type": "string",
+                "pattern": "^binding_[A-Za-z0-9._-]+$"
+              },
+              "target_layer": {
+                "type": "string",
+                "enum": [
+                  "origin",
+                  "trace",
+                  "transformation",
+                  "audit",
+                  "royalty_hook",
+                  "boundary",
+                  "handoff",
+                  "validation",
+                  "whole_receipt"
+                ]
+              },
+              "evidence_type": {
+                "type": "string",
+                "enum": [
+                  "conversation_excerpt",
+                  "file_reference",
+                  "repository_commit",
+                  "repository_url",
+                  "web_url",
+                  "document_hash",
+                  "model_output",
+                  "manual_attestation",
+                  "external_receipt",
+                  "timestamp",
+                  "signature",
+                  "other"
+                ]
+              },
+              "reference_type": {
+                "type": "string",
+                "enum": [
+                  "url",
+                  "commit_hash",
+                  "file_path",
+                  "hash",
+                  "receipt_id",
+                  "text_excerpt",
+                  "local_reference",
+                  "external_id",
+                  "other"
+                ]
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "hash": {
+                "type": "object",
+                "required": [
+                  "algorithm",
+                  "value"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "algorithm": {
+                    "type": "string",
+                    "enum": [
+                      "sha256",
+                      "sha512",
+                      "blake3",
+                      "other"
+                    ]
+                  },
+                  "value": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "captured_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "verification_status": {
+                "type": "string",
+                "enum": [
+                  "unverified",
+                  "self_attested",
+                  "trace_supported",
+                  "hash_verified",
+                  "externally_verified",
+                  "rejected"
+                ]
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "immutable": {
+                "type": "boolean"
+              },
+              "redaction_status": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "partial",
+                  "full",
+                  "unknown"
+                ]
+              },
+              "privacy_notes": {
+                "type": "string"
+              },
+              "evidence_summary": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "cross_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "check_id",
+              "checked_against",
+              "check_result"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "check_id": {
+                "type": "string",
+                "pattern": "^check_[A-Za-z0-9._-]+$"
+              },
+              "checked_against": {
+                "type": "string",
+                "minLength": 1
+              },
+              "check_result": {
+                "type": "string",
+                "enum": [
+                  "consistent",
+                  "partial_match",
+                  "conflict",
+                  "unknown"
+                ]
+              },
+              "check_notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "evidence_summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "audit": {
       "type": "object",
       "required": [
         "synchronization_risk",
         "originality_assessment",
         "evidence_level",
+        "evidence_bound",
         "human_review_required"
       ],
       "additionalProperties": false,
       "properties": {
         "synchronization_risk": {
           "type": "string",
-          "enum": ["low", "medium", "high", "unknown"]
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "unknown"
+          ]
         },
         "originality_assessment": {
           "type": "string",
-          "enum": ["original", "derivative", "mixed", "uncertain"]
+          "enum": [
+            "original",
+            "derivative",
+            "mixed",
+            "uncertain"
+          ]
         },
         "evidence_level": {
           "type": "string",
-          "enum": ["none", "self_declared", "trace_supported", "externally_verified"]
+          "enum": [
+            "none",
+            "self_declared",
+            "trace_supported",
+            "evidence_bound",
+            "externally_verified"
+          ]
+        },
+        "evidence_bound": {
+          "type": "boolean"
         },
         "human_review_required": {
           "type": "boolean"
@@ -216,7 +450,10 @@
     },
     "royalty_hook": {
       "type": "object",
-      "required": ["enabled", "allocation"],
+      "required": [
+        "enabled",
+        "allocation"
+      ],
       "additionalProperties": false,
       "properties": {
         "enabled": {
@@ -229,7 +466,11 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["recipient", "role", "share_percent"],
+            "required": [
+              "recipient",
+              "role",
+              "share_percent"
+            ],
             "additionalProperties": false,
             "properties": {
               "recipient": {
@@ -237,7 +478,13 @@
               },
               "role": {
                 "type": "string",
-                "enum": ["originator", "contributor", "maintainer", "fund", "other"]
+                "enum": [
+                  "originator",
+                  "contributor",
+                  "maintainer",
+                  "fund",
+                  "other"
+                ]
               },
               "share_percent": {
                 "type": "number",
@@ -251,7 +498,11 @@
     },
     "boundary": {
       "type": "object",
-      "required": ["usage_policy", "prohibited_uses", "consent_notes"],
+      "required": [
+        "usage_policy",
+        "prohibited_uses",
+        "consent_notes"
+      ],
       "additionalProperties": false,
       "properties": {
         "usage_policy": {
@@ -278,7 +529,11 @@
     },
     "handoff": {
       "type": "object",
-      "required": ["next_protocols", "related_records", "handoff_notes"],
+      "required": [
+        "next_protocols",
+        "related_records",
+        "handoff_notes"
+      ],
       "additionalProperties": false,
       "properties": {
         "next_protocols": {
@@ -315,7 +570,11 @@
       "properties": {
         "validation_status": {
           "type": "string",
-          "enum": ["draft", "validated", "rejected"]
+          "enum": [
+            "draft",
+            "validated",
+            "rejected"
+          ]
         },
         "receipt_hash": {
           "type": "string"
