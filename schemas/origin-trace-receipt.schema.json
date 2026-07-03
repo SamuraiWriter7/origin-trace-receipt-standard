@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.org/schemas/origin-trace-receipt.schema.json",
   "title": "Origin Trace Receipt",
-  "description": "A record for preserving origin, trace, transformation, evidence binding, transformation diff, audit, royalty handoff, and downstream protocol handoff information for AI-assisted outputs.",
+  "description": "A record for preserving origin, trace, transformation, evidence binding, transformation diff, audit, royalty handoff, human review gate, and downstream protocol handoff information for AI-assisted outputs.",
   "type": "object",
   "required": [
     "schema_version",
@@ -16,6 +16,7 @@
     "transformation_diff",
     "audit",
     "royalty_handoff",
+    "human_review_gate",
     "boundary",
     "handoff"
   ],
@@ -23,7 +24,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "0.4.0"
+      "const": "0.5.0"
     },
     "record_type": {
       "type": "string",
@@ -257,6 +258,7 @@
                   "audit",
                   "royalty_hook",
                   "royalty_handoff",
+                  "human_review_gate",
                   "boundary",
                   "handoff",
                   "validation",
@@ -561,7 +563,8 @@
         "evidence_bound",
         "transformation_diff_bound",
         "royalty_handoff_ready",
-        "human_review_required"
+        "human_review_required",
+        "human_review_gate_status"
       ],
       "additionalProperties": false,
       "properties": {
@@ -604,6 +607,17 @@
         },
         "human_review_required": {
           "type": "boolean"
+        },
+        "human_review_gate_status": {
+          "type": "string",
+          "enum": [
+            "not_required",
+            "required",
+            "pending",
+            "passed",
+            "rejected",
+            "blocked"
+          ]
         },
         "audit_notes": {
           "type": "string"
@@ -969,6 +983,231 @@
           }
         },
         "handoff_summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "human_review_gate": {
+      "type": "object",
+      "required": [
+        "gate_id",
+        "gate_status",
+        "review_required",
+        "review_triggers",
+        "reviewer_roles",
+        "blocking_conditions",
+        "allowed_after_review",
+        "rejected_actions",
+        "decision_record",
+        "gate_summary"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "gate_id": {
+          "type": "string",
+          "pattern": "^human_gate_[A-Za-z0-9._-]+$"
+        },
+        "gate_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "open",
+            "pending_review",
+            "passed",
+            "rejected",
+            "blocked",
+            "not_required"
+          ]
+        },
+        "review_required": {
+          "type": "boolean"
+        },
+        "review_triggers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "high_synchronization_risk",
+              "medium_synchronization_risk",
+              "low_evidence_confidence",
+              "missing_origin_reference",
+              "missing_license_policy",
+              "missing_recipient_identity",
+              "conflicting_claims",
+              "high_derivation",
+              "commercial_use_requested",
+              "training_use_requested",
+              "external_settlement_requested",
+              "market_registration_requested",
+              "custom_policy",
+              "other"
+            ]
+          }
+        },
+        "reviewer_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "originator",
+              "maintainer",
+              "auditor",
+              "legal_reviewer",
+              "market_operator",
+              "royalty_operator",
+              "human_gatekeeper",
+              "other"
+            ]
+          }
+        },
+        "blocking_conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "condition_id",
+              "condition_type",
+              "severity",
+              "blocks_actions",
+              "condition_summary"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "condition_id": {
+                "type": "string",
+                "pattern": "^condition_[A-Za-z0-9._-]+$"
+              },
+              "condition_type": {
+                "type": "string",
+                "enum": [
+                  "high_sync_risk",
+                  "low_evidence_confidence",
+                  "missing_origin_reference",
+                  "missing_license_policy",
+                  "missing_recipient_identity",
+                  "conflicting_claims",
+                  "high_derivation",
+                  "commercial_use",
+                  "training_use",
+                  "external_settlement",
+                  "market_registration",
+                  "custom_policy",
+                  "other"
+                ]
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "critical"
+                ]
+              },
+              "blocks_actions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "market_registration",
+                    "license_publication",
+                    "commercial_use",
+                    "training_use",
+                    "royalty_execution",
+                    "external_settlement",
+                    "public_claim",
+                    "agent_auto_handoff",
+                    "other"
+                  ]
+                }
+              },
+              "condition_summary": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "allowed_after_review": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "archive_only",
+              "internal_use",
+              "attribution_publication",
+              "license_publication",
+              "market_registration",
+              "royalty_handoff",
+              "external_settlement",
+              "agent_auto_handoff",
+              "other"
+            ]
+          }
+        },
+        "rejected_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "market_registration",
+              "license_publication",
+              "commercial_use",
+              "training_use",
+              "royalty_execution",
+              "external_settlement",
+              "public_origin_claim",
+              "agent_auto_handoff",
+              "other"
+            ]
+          }
+        },
+        "decision_record": {
+          "type": "object",
+          "required": [
+            "decision_status",
+            "decision_authority",
+            "decision_notes"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "decision_status": {
+              "type": "string",
+              "enum": [
+                "not_started",
+                "pending",
+                "approved",
+                "approved_with_conditions",
+                "rejected",
+                "blocked"
+              ]
+            },
+            "decision_authority": {
+              "type": "string",
+              "enum": [
+                "none",
+                "originator",
+                "maintainer",
+                "auditor",
+                "legal_reviewer",
+                "market_operator",
+                "royalty_operator",
+                "multi_party_review",
+                "other"
+              ]
+            },
+            "reviewed_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "decision_notes": {
+              "type": "string"
+            }
+          }
+        },
+        "gate_summary": {
           "type": "string",
           "minLength": 1
         }
