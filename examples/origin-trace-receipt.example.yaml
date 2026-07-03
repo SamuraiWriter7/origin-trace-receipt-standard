@@ -1,7 +1,7 @@
-schema_version: "0.1.0"
+schema_version: "0.2.0"
 record_type: origin_trace_receipt
-receipt_id: otr_2026-07-02-trace-audit-origin-v0.1
-created_at: "2026-07-02T02:45:00Z"
+receipt_id: otr_2026-07-03-evidence-binding-v0.2
+created_at: "2026-07-03T00:20:00Z"
 
 origin:
   origin_id: origin_trace_receipt_core
@@ -10,22 +10,23 @@ origin:
   origin_summary: >-
     A bridge record that preserves the origin of an AI-assisted output,
     the traces it used, the transformation performed, audit status,
-    and downstream royalty or market handoff information.
+    evidence bindings, and downstream royalty or market handoff information.
   creator_reference: Kazene / SamuraiWriter7
   repository: https://github.com/SamuraiWriter7/origin-trace-receipt-standard
-  license_policy_id: attribution_required_v0.1
+  license_policy_id: attribution_required_v0.2
 
 trace:
   trace_id: trace_initial_design
   source_interactions:
     - source_id: source_user_dialogue
       source_type: conversation
-      reference: "Design discussion about Trace Receipt, Synchronization Audit, and Origin Structure Market"
+      reference: "Design discussion about Trace Receipt, Synchronization Audit, Origin Structure Market, and Evidence Binding Layer"
       role: primary
       contribution_weight: 0.7
       interaction_summary: >-
         The dialogue identified trace, audit, origin, royalty, memory,
-        and orchestration as the central layers of an AI civilization OS.
+        orchestration, and evidence binding as central layers of an AI
+        civilization OS.
 
     - source_id: source_existing_repos
       source_type: repository
@@ -39,34 +40,101 @@ trace:
 transformation:
   transformation_type: specification
   input_summary: >-
-    Multiple related GitHub specification ideas existed separately across
-    trace, synchronization audit, origin market, and royalty layers.
+    The v0.1 receipt preserved origin, trace, transformation, audit, royalty,
+    boundary, and handoff metadata, but did not explicitly bind those claims
+    to concrete evidence.
   output_summary: >-
-    The ideas were condensed into a minimal bridge receipt that can hand off
-    to existing specialized protocols.
+    The v0.2 receipt adds an Evidence Binding Layer that links receipt claims
+    to conversation excerpts, repository references, commits, hashes, files,
+    timestamps, or external receipts.
   preserved_elements:
     - origin preservation
     - source interaction trace
     - transformation summary
     - synchronization audit
     - royalty handoff
+    - protocol handoff
   changed_elements:
-    - unified record boundary
-    - explicit protocol handoff layer
-    - minimal v0.1 validation target
+    - added evidence set
+    - added evidence bindings
+    - added target-layer binding
+    - added verification status
+    - added confidence scoring
+    - added optional cross-checks
+
+evidence:
+  evidence_set_id: evidence_origin_trace_receipt_v0.2
+  binding_strategy: mixed
+  evidence_bindings:
+    - binding_id: binding_origin_dialogue
+      target_layer: origin
+      evidence_type: conversation_excerpt
+      reference_type: local_reference
+      reference: "User-AI design dialogue initiating Origin Trace Receipt Standard and Evidence Binding Layer"
+      captured_at: "2026-07-03T00:17:49Z"
+      verification_status: self_attested
+      confidence: 0.8
+      immutable: false
+      redaction_status: partial
+      privacy_notes: >-
+        The full conversation may contain contextual material that should not
+        be exposed directly in public records.
+      evidence_summary: >-
+        Supports the claim that the protocol originated from a design dialogue
+        connecting trace, audit, origin, and royalty systems.
+
+    - binding_id: binding_existing_protocol_refs
+      target_layer: trace
+      evidence_type: repository_url
+      reference_type: url
+      reference: "https://github.com/SamuraiWriter7"
+      captured_at: "2026-07-03T00:20:00Z"
+      verification_status: trace_supported
+      confidence: 0.7
+      immutable: false
+      redaction_status: none
+      evidence_summary: >-
+        Supports the claim that the receipt is designed as a bridge rather
+        than a replacement for specialized upstream repositories.
+
+    - binding_id: binding_schema_file
+      target_layer: whole_receipt
+      evidence_type: file_reference
+      reference_type: file_path
+      reference: "schemas/origin-trace-receipt.schema.json"
+      verification_status: trace_supported
+      confidence: 0.9
+      immutable: false
+      redaction_status: none
+      evidence_summary: >-
+        Binds the receipt structure to the machine-readable JSON Schema file.
+
+  cross_checks:
+    - check_id: check_v0.2_schema_example_alignment
+      checked_against: "examples/origin-trace-receipt.example.yaml"
+      check_result: consistent
+      check_notes: >-
+        The example is expected to validate against the v0.2 schema using
+        scripts/validate_examples.py.
+
+  evidence_summary: >-
+    v0.2 binds the receipt to dialogue, repository-level references, and schema
+    files so that later audit systems can inspect where claims originated.
 
 audit:
   synchronization_risk: low
   originality_assessment: mixed
-  evidence_level: self_declared
+  evidence_level: evidence_bound
+  evidence_bound: true
   human_review_required: true
   audit_notes: >-
-    This v0.1 record is a bridge specification derived from prior internal
-    protocol work and should be reviewed before external standardization.
+    The v0.2 receipt is evidence-bound but not externally verified.
+    It preserves reviewable links for later audit without making automatic
+    ownership or originality claims.
 
 royalty_hook:
   enabled: true
-  policy_id: royalty_os_bridge_v0.1
+  policy_id: royalty_os_bridge_v0.2
   allocation:
     - recipient: originator
       role: originator
@@ -80,9 +148,10 @@ boundary:
   prohibited_uses:
     - false attribution of origin
     - removal of trace or audit metadata
+    - removal of evidence bindings when used for downstream registration
   consent_notes: >-
-    Reuse is permitted when attribution, trace preservation, and audit handoff
-    are maintained.
+    Reuse is permitted when attribution, trace preservation, audit handoff,
+    and evidence binding are maintained.
 
 handoff:
   next_protocols:
@@ -94,9 +163,10 @@ handoff:
     - ai_search_trace_receipt_v0.5
     - sync_audit_protocol_v0.5
     - origin_structure_market_v0.5
+    - origin_trace_receipt_v0.1
   handoff_notes: >-
     Specialized protocols should handle detailed search traces, similarity
-    audits, market listings, and license policies.
+    audits, market listings, license policies, and royalty allocation graphs.
 
 validation:
   validation_status: draft
