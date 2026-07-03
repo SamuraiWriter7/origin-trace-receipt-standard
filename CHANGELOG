@@ -2,6 +2,65 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.4.0-candidate] - 2026-07-03
+
+### Added
+
+- Added Royalty Handoff Layer.
+- Added `royalty_handoff` as a required top-level receipt layer.
+- Added `handoff_id`.
+- Added royalty handoff status values:
+  - draft
+  - ready_for_review
+  - ready_for_registration
+  - registered
+  - blocked
+  - not_applicable
+- Added handoff targets for downstream protocols.
+- Added target protocol classification:
+  - royalty-os
+  - compute-access-royalty-os
+  - origin-structure-market
+  - origin-license-policy-registry
+  - okf-royalty-os-bridge
+  - external marketplaces
+  - external registries
+- Added target purpose classification:
+  - attribution
+  - licensing
+  - royalty allocation
+  - market registration
+  - compute access
+  - dispute review
+  - archival
+- Added required and missing input tracking for handoff targets.
+- Added handoff readiness state.
+- Added allocation basis.
+- Added license handoff.
+- Added review requirements.
+- Added settlement intent.
+- Added `royalty_handoff` as an evidence target layer.
+- Added `audit.royalty_handoff_ready`.
+
+### Changed
+
+- Updated `schema_version` from `0.3.0` to `0.4.0`.
+- Updated the example receipt to demonstrate royalty, license, market, and registry routing.
+- Updated audit semantics to distinguish receipts that contain royalty handoff routing.
+- Updated boundary rules to prevent automatic royalty execution without downstream review.
+
+### Purpose
+
+v0.4 turns the receipt into a bridge between trace preservation and value return.
+
+v0.1 made the receipt recordable.  
+v0.2 made it evidence-bound.  
+v0.3 made it diff-aware.  
+v0.4 makes it royalty-handoff-ready.
+
+This release does not execute payment, determine ownership, or assign legal rights.  
+It preserves the structured information needed by downstream royalty, license, market, registry, or audit systems.
+
 ## [v0.3.0-candidate] - 2026-07-03
 
 ### Added
