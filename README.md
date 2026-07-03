@@ -180,3 +180,24 @@ handoff:
     - origin-structure-market
   related_records: []
   handoff_notes: Use downstream protocols for deeper audit and market registration.
+
+Validation
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Validate examples:
+
+python scripts/validate_examples.py
+Version
+
+Current candidate:
+
+v0.1.0-candidate
+Status
+
+This repository starts as a bridge specification.
+
+The goal of v0.1 is not to solve origin, audit, and royalty completely.
+The goal is to define the smallest reliable receipt that can connect them.
